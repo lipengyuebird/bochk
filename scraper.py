@@ -43,6 +43,7 @@ def scrape_exchange_rate_hkd() -> Dict:
     return result
 
 
-def clear_cache(base_currency: str):
+def clear_cache(base_currency: str, currency: str):
     assert base_currency.upper() in util.currencies.allowed_currencies
+    assert currency.upper() in util.currencies.allowed_currencies
     cache.delete_memoized(eval('scrape_exchange_rate_' + base_currency.lower()))

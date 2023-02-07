@@ -6,15 +6,18 @@
 # @Software: PyCharm
 
 import os
+from threading import Event
 
 # ========== Use Flask with Nacos ==========
 from flask_with_nacos.app import FlaskWithNacos
+from flask_kafka import FlaskKafka
 from flask import make_response
 
 import app_config
 
 
 app = FlaskWithNacos(__name__, eval(f'app_config.{os.getenv("FLASK_ENV")}["SERVER_ADDRESSES"]'), 'public')
+bus = FlaskKafka(Event(), bootstrap_servers=",".join(["8.130.47.183:9092"]), group_id='default')
 
 
 @app.after_request
@@ -28,6 +31,7 @@ def after(resp):
     resp.headers['Access-Control-Allow-Credentials'] = 'true'
     resp.headers['Access-Control-Expose-Headers'] = 'token, Authorization, accept, user-agent, content-type'
     return resp
+
 
 # ========== Use Original Flask ==========
 # from flask import Flask

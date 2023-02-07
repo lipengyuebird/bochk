@@ -16,7 +16,7 @@ import util.currencies
 from extensions import cache
 
 
-@cache.memoize(timeout=300)
+@cache.memoize(timeout=3600)
 def scrape_exchange_rate_hkd() -> Dict:
     html = etree.HTML(requests.get(
         'https://www.bochk.com/whk/rates/exchangeRatesForCurrency/exchangeRatesForCurrency-input.action?lang=en'
